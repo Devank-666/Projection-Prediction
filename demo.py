@@ -5,7 +5,6 @@ from datetime import datetime, timedelta
 import sys
 import os
 
-# Add the current directory to path to import our modules
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 def generate_sample_campaigns():
@@ -177,14 +176,13 @@ def run_demo():
     """Run a complete demonstration of the Meta Ads projection system"""
     
     print("=" * 60)
-    print("🚀 META ADS PROJECTION TEMPLATE DEMO")
+    print("META ADS PROJECTION TEMPLATE DEMO")
     print("=" * 60)
     print()
     
-    # Generate sample campaigns
     campaigns = generate_sample_campaigns()
     
-    print("📊 CAMPAIGN ANALYSIS & PROJECTIONS")
+    print("CAMPAIGN ANALYSIS & PROJECTIONS")
     print("-" * 40)
     print()
     
@@ -197,11 +195,9 @@ def run_demo():
         print(f"Industry: {campaign['industry']}")
         print()
         
-        # Calculate projections
         projection = calculate_performance_projections(campaign)
         all_projections.append(projection)
         
-        # Display daily metrics
         daily = projection['daily_metrics']
         print("Daily Projected Metrics:")
         print(f"  • Impressions: {daily['impressions']:,}")
@@ -215,7 +211,6 @@ def run_demo():
         print(f"  • ROAS: {daily['roas']:.2f}")
         print()
         
-        # Display monthly totals
         monthly = projection['monthly_totals']
         print("30-Day Projected Totals:")
         print(f"  • Total Spend: ${monthly['total_spend']:,.2f}")
@@ -224,13 +219,12 @@ def run_demo():
         print(f"  • Total Conversions: {monthly['total_conversions']:,}")
         print()
         
-        # Generate AI suggestions
         suggestions = ai_optimization_suggestions(projection)
         
         if suggestions:
             print("🤖 AI OPTIMIZATION SUGGESTIONS:")
             for suggestion in suggestions:
-                priority_emoji = "🚨" if suggestion['priority'] == 'HIGH' else "⚠️"
+                priority_emoji = "Critical" if suggestion['priority'] == 'HIGH' else "Alert"
                 print(f"{priority_emoji} {suggestion['priority']} PRIORITY - {suggestion['category']}")
                 print(f"   Issue: {suggestion['issue']}")
                 print("   Recommendations:")
@@ -238,19 +232,18 @@ def run_demo():
                     print(f"     • {rec}")
                 print()
         else:
-            print("✅ Campaign performance looks good! Focus on scaling strategies.")
+            print("Campaign performance looks good! Focus on scaling strategies.")
             print()
         
         print("=" * 60)
         print()
     
-    # Summary Analysis
     total_spend = sum(p['monthly_totals']['total_spend'] for p in all_projections)
     total_revenue = sum(p['monthly_totals']['total_revenue'] for p in all_projections)
     total_profit = total_revenue - total_spend
     overall_roas = total_revenue / total_spend if total_spend > 0 else 0
     
-    print("📈 PORTFOLIO SUMMARY")
+    print("PORTFOLIO SUMMARY")
     print("-" * 40)
     print(f"Total Monthly Spend: ${total_spend:,.2f}")
     print(f"Total Monthly Revenue: ${total_revenue:,.2f}")
@@ -258,26 +251,25 @@ def run_demo():
     print(f"Overall Portfolio ROAS: {overall_roas:.2f}")
     print()
     
-    # Portfolio recommendations
     if overall_roas >= 4.0:
-        print("🟢 EXCELLENT: Portfolio performance allows for aggressive scaling")
+        print("EXCELLENT: Portfolio performance allows for aggressive scaling")
         print("   • Increase budgets by 25-50%")
         print("   • Expand to new audiences and platforms")
         print("   • Test new campaign objectives")
     elif overall_roas >= 3.0:
-        print("🟡 GOOD: Portfolio performance allows for conservative scaling")
+        print("GOOD: Portfolio performance allows for conservative scaling")
         print("   • Increase budgets by 10-20%")
         print("   • Focus on optimizing underperforming campaigns")
         print("   • Test new creative formats")
     else:
-        print("🔴 NEEDS ATTENTION: Focus on optimization before scaling")
+        print("NEEDS ATTENTION: Focus on optimization before scaling")
         print("   • Pause poor-performing campaigns")
         print("   • Implement immediate optimization strategies")
         print("   • Review audience targeting and creative")
     
     print()
     print("=" * 60)
-    print("✅ Demo completed! Run the full Streamlit app for interactive analysis.")
+    print(" Demo completed! Run the full Streamlit app for interactive analysis.")
     print("   Command: ./run_meta_ads_app.sh")
     print("=" * 60)
 
