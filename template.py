@@ -9,7 +9,6 @@ import altair as alt
 # Page configuration
 st.set_page_config(
     page_title="Meta Ads Budget Projector",
-    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -44,50 +43,41 @@ st.markdown("""
 
 class SimpleBudgetProjector:
     def __init__(self):
-        # Industry benchmarks
         self.benchmarks = {
-            'avg_ctr': 1.5,  # Average CTR for Meta Ads
-            'avg_conversion_rate': 3.2,  # Average conversion rate
-            'avg_aov': 75,  # Average order value
-            'avg_frequency': 2.1  # Average frequency
+            'avg_ctr': 1.5, 
+            'avg_conversion_rate': 3.2,  
+            'avg_aov': 75,  
+            'avg_frequency': 2.1  
         }
     
     def calculate_projections(self, budget, cpc, days=30):
         """Calculate detailed projections based on budget and CPC"""
         
-        # Daily budget
         daily_budget = budget / days
         
-        # Basic calculations
         daily_clicks = daily_budget / cpc
         total_clicks = daily_clicks * days
         
-        # Estimate impressions based on average CTR
         ctr = self.benchmarks['avg_ctr']
         daily_impressions = daily_clicks / (ctr / 100)
         total_impressions = daily_impressions * days
         
-        # Estimate conversions
         conversion_rate = self.benchmarks['avg_conversion_rate']
         daily_conversions = daily_clicks * (conversion_rate / 100)
         total_conversions = daily_conversions * days
         
-        # Estimate revenue
         aov = self.benchmarks['avg_aov']
         daily_revenue = daily_conversions * aov
         total_revenue = daily_revenue * days
         
-        # Calculate derived metrics
         roas = total_revenue / budget if budget > 0 else 0
         cpa = budget / total_conversions if total_conversions > 0 else 0
         cpm = (budget / total_impressions) * 1000 if total_impressions > 0 else 0
         
-        # Create daily breakdown
         dates = pd.date_range(start=datetime.now(), periods=days, freq='D')
         daily_data = []
         
         for i, date in enumerate(dates):
-            # Add some realistic variance
             variance = np.random.normal(1, 0.1)
             daily_data.append({
                 'date': date,
@@ -106,7 +96,6 @@ class SimpleBudgetProjector:
         
         projections_df = pd.DataFrame(daily_data)
         
-        # Summary metrics
         summary = {
             'total_budget': budget,
             'total_clicks': int(total_clicks),
@@ -129,7 +118,6 @@ class SimpleBudgetProjector:
         """Generate AI recommendations based on projections"""
         recommendations = []
         
-        # ROAS Analysis
         if summary['roas'] < 2.0:
             recommendations.append({
                 'type': 'Critical',
@@ -152,7 +140,6 @@ class SimpleBudgetProjector:
                 'action': 'Consider scaling budget to maximize profits'
             })
         
-        # CPC Analysis
         if cpc > 2.5:
             recommendations.append({
                 'type': 'Critical',
@@ -175,7 +162,6 @@ class SimpleBudgetProjector:
                 'action': 'Maintain current strategy and monitor performance'
             })
         
-        # Conversion Analysis
         if summary['avg_conversion_rate'] < 2.0:
             recommendations.append({
                 'type': 'Critical',
@@ -191,7 +177,6 @@ class SimpleBudgetProjector:
                 'action': 'A/B test landing pages or checkout process'
             })
         
-        # Budget Recommendations
         if budget < 1000:
             recommendations.append({
                 'type': 'Suggestion',
@@ -200,7 +185,6 @@ class SimpleBudgetProjector:
                 'action': 'Gradually increase daily budget by 20-30% if performance is good'
             })
         
-        # Profit Analysis
         if summary['profit'] < 0:
             recommendations.append({
                 'type': 'Critical',
@@ -214,7 +198,6 @@ class SimpleBudgetProjector:
 def main():
     st.markdown('<h1 class="main-header">📊 Meta Ads Budget Projector</h1>', unsafe_allow_html=True)
     
-    # Input Section
     st.header("💰 Budget & CPC Input")
     
     col1, col2, col3 = st.columns(3)
@@ -253,7 +236,6 @@ def main():
         projector = SimpleBudgetProjector()
         projections_df, summary = projector.calculate_projections(budget, cpc, days)
         
-        # Display Summary Metrics
         st.header("Projection Summary")
         
         col1, col2, col3, col4 = st.columns(4)
@@ -274,7 +256,6 @@ def main():
             st.metric("Profit/Loss", f"₹{summary['profit']:,.2f}")
             st.metric("CPA", f"₹{summary['cpa']:.2f}")
         
-        # Performance Charts
         st.header("Performance Visualization")
         
         tab1, tab2, tab3 = st.tabs(["💰 Spend & Revenue", "👆 Clicks & Conversions", "📊 Key Metrics"])
@@ -336,8 +317,7 @@ def main():
                                        'thickness': 0.75, 'value': 2.0}}))
                 st.plotly_chart(fig, use_container_width=True)
         
-        # AI Recommendations
-        st.header("🤖 AI Recommendations")
+        st.header("AI Recommendations")
         
         recommendations = projector.generate_ai_recommendations(summary, cpc, budget)
         
@@ -351,7 +331,6 @@ def main():
             else:
                 st.info(f"**{rec['title']}**\n\n{rec['message']}\n\n**Action:** {rec['action']}")
         
-        # Daily Breakdown Table
         st.header("Daily Breakdown")
         st.dataframe(projections_df, use_container_width=True)
 
