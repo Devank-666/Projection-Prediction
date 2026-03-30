@@ -6,14 +6,12 @@ import plotly.graph_objects as go
 from datetime import datetime, timedelta
 import altair as alt
 
-# Page configuration
 st.set_page_config(
     page_title="Meta Ads Budget Projector",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
 st.markdown("""
     <style>
     .main-header {
